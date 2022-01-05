@@ -10,7 +10,7 @@ I. 문제 정의
 
 II. 데이터셋 설명
 
-![image](https://user-images.githubusercontent.com/86652565/148222283-1e633850-7320-40f3-bf91-c2c21edfa3b1.png)
+![image](https://user-images.githubusercontent.com/86652565/148223333-7e516607-e346-4de0-b073-af9eb54463b2.png)
 
 
 데이터 셋은 위 그림과 같다. 각 컬럼에 대한 설명은 다음과 같다.
@@ -38,7 +38,7 @@ III. 알고리즘 채택
 - cp, slope 열은 categorical data이기 때문에 dummy variable로 변환한다. 
 (get_dummies() 함수 이용, 기존의 cp, slope열은 drop()을 이용해 삭제)
 
-![image](https://user-images.githubusercontent.com/86652565/148222338-3fab9b0b-b95c-40af-ba05-16a5857b459d.png)
+![image](https://user-images.githubusercontent.com/86652565/148223426-a088f76b-b935-4d86-a309-08435cd34f81.png)
 
 - target열이 실제 병 발병 유무이므로 y에 저장한다.
 - x_data에 target열을 삭제한 나머지를 저장한다.
@@ -51,7 +51,7 @@ III. 알고리즘 채택
 
 ※ matplotlib의 boxplot()은 데이터들의 이상치를 확인할 수 있는 메소드이다. boxplot은 사분위수를 이용하여 데이터를 나타내는데, 가운데 사각형의 노란 직선이 중위수(median)이며, 사각형의 윗변과 밑변이 각각 3분위수(Q3), 1분위수(Q1)이다. 그리고 사각형 외부로 뻗어있는 직선을 울타리라고 부르는데, 각 직선의 끝점은 다음과 같이 계산한다.
 
-![image](https://user-images.githubusercontent.com/86652565/148222463-20750938-5162-454b-8d62-42d318455c97.png)
+![image](https://user-images.githubusercontent.com/86652565/148223462-c04c6a20-01b3-4ae1-b082-ab1817b58a8d.png)
 
 보통 이 울타리 밖의 data들을 이상치(outlier)라고 한다. 다만 위 그림에서 울타리 밖의 데이터를 전부 제거하기에는 데이터 수가 많이 줄어드므로, 눈에 확 띄는 부분만 제거하기로 한다.
 
@@ -70,6 +70,8 @@ train_test_split() 함수로 train data는 80%, test data는 20%로 설정한다
 - sklearn의 KNeighborsClassifer을 사용한다.
 - 최적의 k를 찾기 위해서 k를 1~29까지 1씩 증가시켜 가면서 train data들을 fit함수에 적용시킨 후, test data와 score함수를 사용하여 정확도를 조사한다.
 - 밑의 그림에서와 같이 가장 높은 score는 k=12일 때이고, 그때의 정확도는 81.67% 임을 알 수 있다.
+
+![image](https://user-images.githubusercontent.com/86652565/148223512-640d2954-e44a-4806-a11e-3162d5b77a7d.png)
 
 
 2. Decision Tree
