@@ -29,6 +29,7 @@ II. 데이터셋 설명
 - ca : 주요 혈관 수
 - target : 병 보유 유무 ( 보유 = 1, 미보유 = 0 )
 
+
 III. 알고리즘 채택
 
 0. 데이터 전처리
@@ -36,6 +37,7 @@ III. 알고리즘 채택
 - thal 열은 관련 자료 부족으로 drop()을 이용해 삭제한다.
 - cp, slope 열은 categorical data이기 때문에 dummy variable로 변환한다. 
 (get_dummies() 함수 이용, 기존의 cp, slope열은 drop()을 이용해 삭제)
+
 ![image](https://user-images.githubusercontent.com/86652565/148222338-3fab9b0b-b95c-40af-ba05-16a5857b459d.png)
 
 - target열이 실제 병 발병 유무이므로 y에 저장한다.
@@ -48,18 +50,21 @@ III. 알고리즘 채택
 확인 결과 위와 같이 눈에 띄는 이상치들이 존재한다. 이상치 처리를 위해 빨간색 원 안에 있는 데이터들은 그 행을 통째로 지워준다.
 
 ※ matplotlib의 boxplot()은 데이터들의 이상치를 확인할 수 있는 메소드이다. boxplot은 사분위수를 이용하여 데이터를 나타내는데, 가운데 사각형의 노란 직선이 중위수(median)이며, 사각형의 윗변과 밑변이 각각 3분위수(Q3), 1분위수(Q1)이다. 그리고 사각형 외부로 뻗어있는 직선을 울타리라고 부르는데, 각 직선의 끝점은 다음과 같이 계산한다.
+
 ![image](https://user-images.githubusercontent.com/86652565/148222463-20750938-5162-454b-8d62-42d318455c97.png)
 
 보통 이 울타리 밖의 data들을 이상치(outlier)라고 한다. 다만 위 그림에서 울타리 밖의 데이터를 전부 제거하기에는 데이터 수가 많이 줄어드므로, 눈에 확 띄는 부분만 제거하기로 한다.
 
 - 최소-최대 정규화
 data를 사용할 때는 각 데이터별 특성에 따라 특정 부분이 비정상적으로 전체 결과에 크게 영향을 끼칠 수 있기 때문에 정규화가 필요하다. 보통 정규화에는 두 가지 방법이 존재한다. 최소-최대 정규화(Min-Max Normalization)과 Z-점수 정규화(Z-Score Normalization)이다. 최소-최대 정규화는 각 컬럼들의 최댓값과 최솟값을 계산하여 그 안에 데이터들이 일정한 척도로 존재하게 하는 것으로, 이상치의 영향을 많이 받는다. 이러한 단점을 보완하기 위한 것이 Z-점수 정규화인데, Z-점수 정규화는 각 컬럼들의 평균과 표준편차를 이용한 것으로, 최소-최대 정규화의 단점을 보완하였다고 이야기할 수 있다. 그러나 이 프로젝트에서는 위의 방법으로 눈에 띄는 이상치를 제거하였으므로, 가장 널리 사용되는 최소-최대 정규화를 사용하기로 한다. 아래 그림은 최대-최소 정규화를 마친 데이터이다.
+
 ![image](https://user-images.githubusercontent.com/86652565/148222487-4db13bc6-cdbc-401d-935b-a9b09bedd17d.png)
 
 
 - train data와 test data 분류
 train_test_split() 함수로 train data는 80%, test data는 20%로 설정한다.
 ※ 보통 데이터로 모델을 만들 때 갖고 있는 모든 데이터를 모델에 학습 시키지 않고, train set과 vaildation set으로 나누어 모델의 성능이 좋은지 검증한다. 이 프로젝트에서 test data는 위 설명에서의 vaildation set의 역할을 수행한다고 볼 수 있다.
+
 
 1. KNN
 - sklearn의 KNeighborsClassifer을 사용한다.
@@ -101,16 +106,18 @@ max_depth = 5이고 splitter = ‘random’일 때, criterion에 관계없이 tr
 
 Kernel 함수를 rbf로 지정하였을 때 가장 score가 높음을 알 수 있다.
 
+
 5. K-fold 교차 검증
 - 위에서 train_test_split() 함수로 train data는 80%, test data는 20%로 설정하였는데, 사실 이것만으로는 부족할 수 있다. 왜냐하면 데이터가 충분히 많지 않은 경우에 아래 그림과 같이 어디 부분이 train data로 되었는지에 따라 결과가 달라질 수 있기 때문이다. 따라서 위의 모델들을 K-fold 교차 검증을 이용하고자 한다. k=5로 한다면, 다섯 번의 학습과 검증을 거쳐 나온 score의 평균을 계산하여 과적합의 가능성을 줄이는 방법이다.
+- 
 ![image](https://user-images.githubusercontent.com/86652565/148222763-9c2a9c52-b124-4ad7-8ff0-3249233b5995.png)
 
 
 ![image](https://user-images.githubusercontent.com/86652565/148222795-e5f8cebd-4569-4d6a-84c2-2f8b96ec1cf0.png)
 
 
-
 - Ramdom Forest로 앙상블 한 모델의 K-fold 교차 검증까지 마쳤을 때의 score가 가장 높으므로 가장 적합한 모델이라고 할 수 있다.
+
 
 IV. 결과 분석
 
@@ -145,14 +152,21 @@ IV. 결과 분석
 V. 참고문헌
 
 심장병 위험 : https://jhealthmedia.joins.com/article/article_view.asp?pno=22840
+
 심장병 원인 : http://www.ikunkang.com/news/articleView.html?idxno=20078
+
 데이터 출처 : https://www.kaggle.com/ronitf/heart-disease-uci
+
 이상값 확인 : https://rfriend.tistory.com/410
+
 데이터 정규화 : http://hleecaster.com/ml-normalization-concept/
+
 K-fold 검증 :
 https://blog.naver.com/PostView.nhn?blogId=winddori2002&logNo=221667083964
+
 알고리즘 채택 :
 https://www.kaggle.com/cdabakoglu/heart-disease-classifications-machine-learning
+
 중요도 예측 : https://bizzengine.tistory.com/182
 
 
